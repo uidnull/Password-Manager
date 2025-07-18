@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Null Pass | by @uidnull</title>
+
+    <!-- Ícono de la pestaña (favicon) -->
+    <link rel="icon" href="src/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Descripción del sitio para buscadores -->
+    <meta name="description" content="Null Pass es una herramienta segura y rápida para gestionar tus contraseñas. Desarrollado por @uidnull." />
+    <link id="theme-css" rel="stylesheet" href="src/CSS/style.css" />
+
+  </head>
+  <body class="body-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- Top actions -->
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Null Pass</h2>
+        <button id="settingsBtn" class="button-accent small">Ajustes</button>
+        <button id="addEntryBtn" class="button-accent small">Añadir</button>
+      </div>
+
+      <!-- Search -->
+      <div class="sidebar-search">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Buscar..."
+          class="search-input"
+        />
+      </div>
+
+      <!-- List -->
+      <nav id="entriesList" class="entries-list"></nav>
+
+      <!-- Input file oculto para importar -->
+      <input type="file" id="importFile" accept=".json" class="hidden" />
+    </aside>
+
+    <!-- Main panel -->
+    <main class="main-panel">
+      <div id="entryDetail" class="entry-detail">
+        <p class="placeholder-text">Selecciona un registro para ver detalles</p>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="src/JS/crypto.js"></script>
+    <script src="src/JS/main.js"></script>
+  </body>
+</html>
