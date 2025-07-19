@@ -287,20 +287,41 @@ window.addEventListener('DOMContentLoaded', () => {
 async function exportEntries() {
   const password = await promptPasswordModal('Clave para cifrar el archivo:');
   if (!password) return;
+
   try {
     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(entries), password).toString();
-    const blob = new Blob([encrypted], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'passwords.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    await alertModal('Exportación completada correctamente.');
+
+    if ('showSaveFilePicker' in window) {
+      const fileHandle = await window.showSaveFilePicker({
+        suggestedName: 'passwords.json',
+        types: [{
+          description: 'Archivo JSON cifrado',
+          accept: { 'application/json': ['.json'] }
+        }]
+      });
+
+      const writable = await fileHandle.createWritable();
+      await writable.write(encrypted);
+      await writable.close();
+
+      await alertModal('Exportación completada correctamente.');
+    } else {
+      // Fallback para navegadores que no soportan showSaveFilePicker
+      const blob = new Blob([encrypted], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'passwords.json';
+      a.click();
+      URL.revokeObjectURL(url);
+
+      await alertModal('Exportación completada correctamente (guardado automático).');
+    }
   } catch {
     await alertModal('Error durante la exportación.');
   }
 }
+
 
 importFile.onchange = async () => {
   const file = importFile.files[0];
